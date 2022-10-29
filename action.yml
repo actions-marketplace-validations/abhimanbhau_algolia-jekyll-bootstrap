@@ -1,0 +1,27 @@
+name: Algolia Jekyll Bootstrap
+description: Bootstrap algolia plugin for jekyll
+author: Abhiman Kolte
+branding:
+  icon: "database"
+  color: "orange"
+inputs:
+  API_KEY:
+    description: "Algolia ADMIN API key"
+    required: true
+runs:
+  using: composite
+  steps:
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: "3.1"
+        bundler-cache: true
+    - name: Bundle install
+      run: |
+        bundle install --jobs 4 --retry 3
+      shell: bash
+    - name: bundle exec jekyll algolia
+      run: |
+        bundle exec jekyll algolia
+      env:
+        ALGOLIA_API_KEY: "${{ inputs.API_KEY }}"
+      shell: bash
